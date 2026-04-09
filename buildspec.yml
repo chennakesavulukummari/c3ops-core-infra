@@ -1,0 +1,91 @@
+version: 0.2
+
+# AWS CodeBuild Configuration for C3OPS Core Infrastructure
+
+phases:
+  install:
+    commands:
+      - echo "Installing Terraform..."
+      - wget -q https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
+      - unzip terraform_1.9.5_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform version
+      - echo "Installing AWS CLI v2..."
+      - pip install --upgrade awscli
+      - aws --version
+
+  pre_build:
+    commands:
+      - echo "Pre-build phase started at $(date)"
+      - echo "Logging into AWS ECR (if needed)..."
+      - aws sts get-caller-identity
+      - echo "Navigating to Terraform directory..."
+      - cd terraform/preprod
+      - echo "Initializing Terraform..."
+      - terraform init
+      - echo "Validating Terraform configuration..."
+      - terraform validate
+      - echo "Formatting check..."
+      - terraform fmt -check -recursive ../
+
+  build:
+    commands:
+      - echo "Build phase started at $(date)"
+      - echo "Planning infrastructure deployment..."
+      - terraform plan -out=tfplan -input=false
+      - echo "Infrastructure plan saved to tfplan"
+
+  post_build:
+    commands:
+      - echo "Post-build phase started at $(date)"
+      - echo "Generate plan report..."
+      - terraform show -json tfplan > tfplan.json
+      - echo "Build completed at $(date)"
+
+# Artifacts to save from the build
+artifacts:
+  files:
+    - terraform/preprod/tfplan
+    - terraform/preprod/tfplan.json
+    - terraform/preprod/.terraform.lock.hcl
+  name: TerraformArtifacts
+
+# Cache configuration
+cache:
+  paths:
+    - '/root/.terraform.d/**/*'
+    - 'terraform/**/.terraform/**/*'
+
+# Logs
+logs:
+  cloudwatch:
+    group-name: c3ops-core-infra-build
+    stream-name: codebuild-logs
+
+# Environment variables
+env:
+  variables:
+    AWS_REGION: ap-south-2
+    TF_VERSION: "1.9.5"
+    TF_INPUT: "false"
+  parameter-store:
+    AWS_ACCOUNT_ID: /c3ops/aws/account-id
+    TERRAFORM_ROLE: /c3ops/aws/terraform-role
+
+# Service role IAM permissions needed:
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Action": [
+#         "ec2:*",
+#         "s3:*",
+#         "dynamodb:*",
+#         "logs:*",
+#         "iam:*"
+#       ],
+#       "Resource": "*"
+#     }
+#   ]
+# }

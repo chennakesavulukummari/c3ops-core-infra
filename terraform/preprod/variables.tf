@@ -1,0 +1,81 @@
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "ap-south-2"
+}
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+  default     = "preprod"
+}
+
+variable "project_name" {
+  description = "Project name for C3OPS"
+  type        = string
+  default     = "c3ops"
+}
+
+variable "core_infra_name" {
+  description = "Core infrastructure name"
+  type        = string
+  default     = "c3ops_preprod"
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_cidrs" {
+  description = "CIDR blocks for public subnets"
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+variable "private_web_subnet_cidrs" {
+  description = "CIDR blocks for private web subnets"
+  type        = list(string)
+  default     = ["10.0.11.0/24", "10.0.12.0/24"]
+}
+
+variable "private_app_subnet_cidrs" {
+  description = "CIDR blocks for private app subnets"
+  type        = list(string)
+  default     = ["10.0.21.0/24", "10.0.22.0/24"]
+}
+
+variable "private_db_subnet_cidrs" {
+  description = "CIDR blocks for private DB subnets"
+  type        = list(string)
+  default     = ["10.0.31.0/24", "10.0.32.0/24"]
+}
+
+variable "availability_zones" {
+  description = "Availability zones for the region"
+  type        = list(string)
+  default     = ["ap-south-2a", "ap-south-2b"]
+}
+
+variable "enable_nat_gateway" {
+  description = "Enable NAT Gateway for private subnets"
+  type        = bool
+  default     = true
+}
+
+variable "enable_flow_logs" {
+  description = "Enable VPC Flow Logs"
+  type        = bool
+  default     = true
+}
+
+variable "tags" {
+  description = "Additional tags to apply to resources"
+  type        = map(string)
+  default = {
+    Owner       = "C3OPS"
+    CostCenter  = "Infrastructure"
+    Compliance  = "Yes"
+  }
+}
