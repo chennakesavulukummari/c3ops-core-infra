@@ -20,7 +20,7 @@ phases:
       - echo "Logging into AWS ECR (if needed)..."
       - aws sts get-caller-identity
       - echo "Navigating to Terraform directory..."
-      - cd terraform/preprod
+      - cd iac/preprod
       - echo "Initializing Terraform..."
       - terraform init
       - echo "Validating Terraform configuration..."
@@ -45,7 +45,7 @@ phases:
 # Artifacts to save from the build
 artifacts:
   files:
-    - terraform/preprod/tfplan
-    - terraform/preprod/tfplan.json
-    - terraform/preprod/.terraform.lock.hcl
+    - iac/preprod/tfplan
+    - iac/preprod/tfplan.json
+    - iac/preprod/.terraform.lock.hcl
   name: TerraformArtifacts
