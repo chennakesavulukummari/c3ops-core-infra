@@ -66,11 +66,11 @@ output "security_group_ids" {
 output "core_infra_summary" {
   description = "Summary of core infrastructure"
   value = {
-    project_name     = var.project_name
-    environment      = var.environment
-    core_infra_name  = var.core_infra_name
-    region           = var.aws_region
-    vpc_id           = module.vpc.vpc_id
+    project_name       = var.project_name
+    environment        = var.environment
+    core_infra_name    = var.core_infra_name
+    region             = var.aws_region
+    vpc_id             = module.vpc.vpc_id
     availability_zones = var.availability_zones
   }
 }

@@ -20,8 +20,8 @@ INTERNET
     |
 +-----------------------------------------------+
 |       PUBLIC SUBNETS (2)                     |
-| Subnet 1: 10.0.1.0/24 (AZ-a)                |
-| Subnet 2: 10.0.2.0/24 (AZ-b)                |
+| Subnet 1: 10.0.1.0/28 (AZ-a)                |
+| Subnet 2: 10.0.2.0/28 (AZ-b)                |
 | Resources: ALB, Bastion Hosts, NAT GW EIPs |
 +-----------------------------------------------+
     |                              |
@@ -40,22 +40,22 @@ INTERNET
     |                              v
     |                    +-------------------+
     |                    | Web Subnets (2)   |
-    |                    | 10.0.11.0/24      |
-    |                    | 10.0.12.0/24      |
+    |                    | 10.0.3.0/24      |
+    |                    | 10.0.4.0/24      |
     |                    +-------------------+
     |                              |
     |                              v
     |                    +-------------------+
     |                    | App Subnets (2)   |
-    |                    | 10.0.21.0/24      |
-    |                    | 10.0.22.0/24      |
+    |                    | 10.0.5.0/24      |
+    |                    | 10.0.6.0/24      |
     |                    +-------------------+
     |                              |
     |                              v
     |                    +-------------------+
     |                    | DB Subnets (2)    |
-    |                    | 10.0.31.0/24      |
-    |                    | 10.0.32.0/24      |
+    |                    | 10.0.7.0/24      |
+    |                    | 10.0.8.0/24      |
     |                    +-------------------+
 
 SECURITY GROUPS FLOW
@@ -127,20 +127,20 @@ ap-south-2a                          ap-south-2b
 VPC: 10.0.0.0/16 (65,536 IPs)
 |
 ├─ Public Subnets: 10.0.0.0/22 (1,024 IPs)
-│  ├─ Subnet 1: 10.0.1.0/24 (256 IPs) - AZ-a
-│  └─ Subnet 2: 10.0.2.0/24 (256 IPs) - AZ-b
+│  ├─ Subnet 1: 10.0.1.0/28 (256 IPs) - AZ-a
+│  └─ Subnet 2: 10.0.2.0/28 (256 IPs) - AZ-b
 |
 ├─ Private Web: 10.0.8.0/22 (1,024 IPs)
-│  ├─ Subnet 1: 10.0.11.0/24 (256 IPs) - AZ-a
-│  └─ Subnet 2: 10.0.12.0/24 (256 IPs) - AZ-b
+│  ├─ Subnet 1: 10.0.3.0/24 (256 IPs) - AZ-a
+│  └─ Subnet 2: 10.0.4.0/24 (256 IPs) - AZ-b
 |
 ├─ Private App: 10.0.16.0/22 (1,024 IPs)
-│  ├─ Subnet 1: 10.0.21.0/24 (256 IPs) - AZ-a
-│  └─ Subnet 2: 10.0.22.0/24 (256 IPs) - AZ-b
+│  ├─ Subnet 1: 10.0.5.0/24 (256 IPs) - AZ-a
+│  └─ Subnet 2: 10.0.6.0/24 (256 IPs) - AZ-b
 |
 └─ Private DB: 10.0.24.0/22 (1,024 IPs)
-   ├─ Subnet 1: 10.0.31.0/24 (256 IPs) - AZ-a
-   └─ Subnet 2: 10.0.32.0/24 (256 IPs) - AZ-b
+   ├─ Subnet 1: 10.0.7.0/24 (256 IPs) - AZ-a
+   └─ Subnet 2: 10.0.8.0/24 (256 IPs) - AZ-b
 ```
 
 ## Route Tables
@@ -250,5 +250,5 @@ Outbound:
 **Architecture Version**: 1.0
 **Last Updated**: April 9, 2024
 **Terraform Version**: 1.9.5+
-**AWS Account**: 225989338000
+**AWS Account**: 318095823459
 **Region**: ap-south-2

@@ -3,7 +3,7 @@
 ## Pre-Deployment Checklist
 
 ### ✅ Environment Preparation
-- [ ] AWS Account access confirmed (Account: 225989338000)
+- [ ] AWS Account access confirmed (Account: 318095823459)
 - [ ] AWS region set to ap-south-2
 - [ ] Terraform v1.9.5+ installed
 - [ ] AWS CLI v2 installed
@@ -15,7 +15,7 @@
 # Verify AWS credentials
 aws sts get-caller-identity
 
-# Expected output should show Account ID: 225989338000
+# Expected output should show Account ID: 318095823459
 ```
 
 ### ✅ Terraform Configuration
@@ -29,7 +29,7 @@ aws sts get-caller-identity
 ```bash
 # Create S3 bucket for state
 aws s3api create-bucket \
-  --bucket c3ops-terraform-state \
+  --bucket c3ops-terraform-statefiles \
   --region ap-south-2 \
   --create-bucket-configuration LocationConstraint=ap-south-2
 
@@ -287,7 +287,7 @@ terraform import aws_vpc.main vpc-xxxxx  # Re-import
 
 | Property | Value |
 |----------|-------|
-| AWS Account | 225989338000 |
+| AWS Account | 318095823459 |
 | Region | ap-south-2 |
 | Environment | preprod |
 | Infrastructure Name | c3ops_preprod |

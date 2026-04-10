@@ -8,7 +8,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "c3ops-terraform-state"
+    bucket         = "c3ops-terraform-statefiles"
     key            = "c3ops_preprod/terraform.tfstate"
     region         = "ap-south-2"
     encrypt        = true

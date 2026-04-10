@@ -31,25 +31,25 @@ variable "vpc_cidr" {
 variable "public_subnet_cidrs" {
   description = "CIDR blocks for public subnets"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.0.1.0/28", "10.0.2.0/28"]
 }
 
 variable "private_web_subnet_cidrs" {
   description = "CIDR blocks for private web subnets"
   type        = list(string)
-  default     = ["10.0.11.0/24", "10.0.12.0/24"]
+  default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
 variable "private_app_subnet_cidrs" {
   description = "CIDR blocks for private app subnets"
   type        = list(string)
-  default     = ["10.0.21.0/24", "10.0.22.0/24"]
+  default     = ["10.0.5.0/24", "10.0.6.0/24"]
 }
 
 variable "private_db_subnet_cidrs" {
   description = "CIDR blocks for private DB subnets"
   type        = list(string)
-  default     = ["10.0.31.0/24", "10.0.32.0/24"]
+  default     = ["10.0.7.0/24", "10.0.8.0/24"]
 }
 
 variable "availability_zones" {
@@ -74,8 +74,8 @@ variable "tags" {
   description = "Additional tags to apply to resources"
   type        = map(string)
   default = {
-    Owner       = "C3OPS"
-    CostCenter  = "Infrastructure"
-    Compliance  = "Yes"
+    Owner      = "C3OPS"
+    CostCenter = "Infrastructure"
+    Compliance = "Yes"
   }
 }

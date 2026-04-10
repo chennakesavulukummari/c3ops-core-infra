@@ -29,29 +29,29 @@ terraform/
 
 ### VPC Configuration
 - **VPC CIDR**: 10.0.0.0/16
-- **Region**: ap-south-2 (Asia Pacific - Mumbai)
+- **Region**: ap-south-2 (Asia Pacific - Hyderabad)
 - **AZs**: ap-south-2a, ap-south-2b (High Availability)
 
 ### Network Tiers
 
 #### Public Tier (2 subnets)
-- **Subnets**: 10.0.1.0/24 (AZ-a), 10.0.2.0/24 (AZ-b)
+- **Subnets**: 10.0.1.0/28 (AZ-a), 10.0.2.0/28 (AZ-b)
 - **Purpose**: Application Load Balancers, Bastion Hosts
 - **Route**: Direct to Internet Gateway (IGW)
 - **NAT**: Provides outbound internet access for private subnets
 
 #### Private Web Tier (2 subnets)
-- **Subnets**: 10.0.11.0/24 (AZ-a), 10.0.12.0/24 (AZ-b)
+- **Subnets**: 10.0.3.0/24 (AZ-a), 10.0.4.0/24 (AZ-b)
 - **Purpose**: Web servers, application servers
 - **Route**: Through NAT Gateway for internet access
 
 #### Private App Tier (2 subnets)
-- **Subnets**: 10.0.21.0/24 (AZ-a), 10.0.22.0/24 (AZ-b)
+- **Subnets**: 10.0.5.0/24 (AZ-a), 10.0.6.0/24 (AZ-b)
 - **Purpose**: Application servers, microservices
 - **Route**: Through NAT Gateway for internet access
 
 #### Private DB Tier (2 subnets)
-- **Subnets**: 10.0.31.0/24 (AZ-a), 10.0.32.0/24 (AZ-b)
+- **Subnets**: 10.0.7.0/24 (AZ-a), 10.0.8.0/24 (AZ-b)
 - **Purpose**: RDS databases, ElastiCache
 - **Route**: No internet access (VPC internal only)
 
@@ -101,7 +101,7 @@ terraform/
    ```
 
 ### AWS Setup
-1. Ensure you have access to AWS Account: 225989338000
+1. Ensure you have access to AWS Account: 318095823459
 2. Verify IAM permissions for creating VPC, subnets, security groups, NAT gateways, etc.
 3. Create S3 bucket and DynamoDB table for Terraform state (optional but recommended)
 
@@ -187,7 +187,7 @@ export AWS_PROFILE=c3ops-preprod
 ## State Management
 
 Terraform state is stored in the backend specified in `provider.tf`. By default, it uses S3 backend:
-- **Bucket**: `c3ops-terraform-state`
+- **Bucket**: `c3ops-terraform-statefiles`
 - **Key**: `c3ops_preprod/terraform.tfstate`
 - **Region**: `ap-south-2`
 - **Encryption**: Enabled
@@ -197,18 +197,18 @@ Terraform state is stored in the backend specified in `provider.tf`. By default,
 ```bash
 # Create S3 bucket
 aws s3api create-bucket \
-  --bucket c3ops-terraform-state \
+  --bucket c3ops-terraform-statefiles \
   --region ap-south-2 \
   --create-bucket-configuration LocationConstraint=ap-south-2
 
 # Enable versioning
 aws s3api put-bucket-versioning \
-  --bucket c3ops-terraform-state \
+  --bucket c3ops-terraform-statefiles \
   --versioning-configuration Status=Enabled
 
 # Enable encryption
 aws s3api put-bucket-encryption \
-  --bucket c3ops-terraform-state \
+  --bucket c3ops-terraform-statefiles \
   --server-side-encryption-configuration '{
     "Rules": [{
       "ApplyServerSideEncryptionByDefault": {
@@ -235,10 +235,10 @@ To customize the infrastructure, edit `terraform.tfvars`:
 vpc_cidr = "10.0.0.0/16"
 
 # Change subnet CIDRs
-public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
-private_web_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
-private_app_subnet_cidrs = ["10.0.21.0/24", "10.0.22.0/24"]
-private_db_subnet_cidrs = ["10.0.31.0/24", "10.0.32.0/24"]
+public_subnet_cidrs = ["10.0.1.0/28", "10.0.2.0/28"]
+private_web_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
+private_app_subnet_cidrs = ["10.0.5.0/24", "10.0.6.0/24"]
+private_db_subnet_cidrs = ["10.0.7.0/24", "10.0.8.0/24"]
 
 # Disable NAT Gateway
 enable_nat_gateway = false

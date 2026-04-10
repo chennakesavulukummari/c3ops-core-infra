@@ -358,7 +358,7 @@ resource "aws_network_acl" "private_db" {
 }
 
 # VPC Flow Logs
-resource "aws_flow_log_group" "main" {
+resource "aws_cloudwatch_log_group" "main" {
   count             = var.enable_flow_logs ? 1 : 0
   name              = "/aws/vpc/flowlogs/${var.core_infra_name}"
   retention_in_days = 7
@@ -371,7 +371,7 @@ resource "aws_flow_log_group" "main" {
   )
 }
 
-resource "aws_flow_logs_role" "main" {
+resource "aws_iam_role" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
   name  = "${var.core_infra_name}-flow-logs-role"
 
@@ -396,10 +396,10 @@ resource "aws_flow_logs_role" "main" {
   )
 }
 
-resource "aws_flow_logs_role_policy" "main" {
+resource "aws_iam_role_policy" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
   name  = "${var.core_infra_name}-flow-logs-policy"
-  role  = aws_flow_logs_role.main[0].id
+  role  = aws_iam_role.flow_logs[0].id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -421,8 +421,8 @@ resource "aws_flow_logs_role_policy" "main" {
 
 resource "aws_flow_log" "main" {
   count                   = var.enable_flow_logs ? 1 : 0
-  iam_role_arn            = aws_flow_logs_role.main[0].arn
-  log_destination         = aws_flow_log_group.main[0].arn
+  iam_role_arn            = aws_iam_role.flow_logs[0].arn
+  log_destination         = aws_cloudwatch_log_group.main[0].arn
   traffic_type            = "ALL"
   vpc_id                  = aws_vpc.main.id
 

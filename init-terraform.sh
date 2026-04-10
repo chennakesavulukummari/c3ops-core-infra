@@ -8,7 +8,7 @@ echo "==================================="
 echo "C3OPS Core Infrastructure Deployment"
 echo "Environment: preprod"
 echo "Region: ap-south-2"
-echo "Account: 225989338000"
+echo "Account: 318095823459"
 echo "==================================="
 
 # Check Terraform version

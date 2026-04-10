@@ -61,7 +61,7 @@ GitHub: Repos
    
 I want to create core infra in aws for c3ops organisation:
 
-AWS Account: 225989338000
+AWS Account: 318095823459
 Region: ap-south-2 
 core-infra name: c3ops_preprod
 

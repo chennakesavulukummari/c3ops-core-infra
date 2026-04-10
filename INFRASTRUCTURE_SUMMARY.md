@@ -12,8 +12,8 @@ A complete Infrastructure as Code (IaC) solution has been created for C3OPS core
 
 ## 🎯 Requirements Met
 
-✅ **AWS Account**: 225989338000  
-✅ **Region**: ap-south-2 (Asia Pacific - Mumbai)  
+✅ **AWS Account**: 318095823459  
+✅ **Region**: ap-south-2 (Asia Pacific - Hyderabad)  
 ✅ **Core Infrastructure Name**: c3ops_preprod  
 ✅ **Technology**: Terraform v1.9.5  
 ✅ **CI/CD**: AWS CodeBuild configuration included  
@@ -71,20 +71,20 @@ A complete Infrastructure as Code (IaC) solution has been created for C3OPS core
 ```
 VPC (10.0.0.0/16)
 ├── Public Tier (2 subnets) - Internet-facing
-│   ├── 10.0.1.0/24 (ap-south-2a)
-│   └── 10.0.2.0/24 (ap-south-2b)
+│   ├── 10.0.1.0/28 (ap-south-2a)
+│   └── 10.0.2.0/28 (ap-south-2b)
 │
 ├── Private Web Tier (2 subnets) - NAT access
-│   ├── 10.0.11.0/24 (ap-south-2a)
-│   └── 10.0.12.0/24 (ap-south-2b)
+│   ├── 10.0.3.0/24 (ap-south-2a)
+│   └── 10.0.4.0/24 (ap-south-2b)
 │
 ├── Private App Tier (2 subnets) - NAT access
-│   ├── 10.0.21.0/24 (ap-south-2a)
-│   └── 10.0.22.0/24 (ap-south-2b)
+│   ├── 10.0.5.0/24 (ap-south-2a)
+│   └── 10.0.6.0/24 (ap-south-2b)
 │
 └── Private DB Tier (2 subnets) - VPC internal only
-    ├── 10.0.31.0/24 (ap-south-2a)
-    └── 10.0.32.0/24 (ap-south-2b)
+    ├── 10.0.7.0/24 (ap-south-2a)
+    └── 10.0.8.0/24 (ap-south-2b)
 ```
 
 ### Security Layers
@@ -156,7 +156,7 @@ terraform output -json
 
 ## 📋 Pre-Deployment Checklist
 
-- [ ] AWS Account access verified (225989338000)
+- [ ] AWS Account access verified (318095823459)
 - [ ] AWS region: ap-south-2
 - [ ] Terraform v1.9.5+ installed
 - [ ] AWS CLI v2 installed
@@ -219,7 +219,7 @@ All infrastructure parameters are configurable via `terraform.tfvars`:
 ```hcl
 # Networking
 vpc_cidr = "10.0.0.0/16"
-public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+public_subnet_cidrs = ["10.0.1.0/28", "10.0.2.0/28"]
 # ... and more
 
 # Features
@@ -375,7 +375,7 @@ Potential additions:
 - **Last Updated**: April 9, 2024
 - **Terraform Version**: 1.9.5+
 - **AWS Provider Version**: 5.0+
-- **AWS Account**: 225989338000
+- **AWS Account**: 318095823459
 - **Region**: ap-south-2
 - **Environment**: preprod
 - **Repository**: /Users/ck/c3ops-repos/c3ops-core-infra
@@ -386,7 +386,7 @@ Potential additions:
 **Quality**: ⭐⭐⭐⭐⭐ Production-Ready  
 **Documentation**: ⭐⭐⭐⭐⭐ Comprehensive  
 
-**Ready for deployment to AWS Account 225989338000, Region ap-south-2**
+**Ready for deployment to AWS Account 318095823459, Region ap-south-2**
 
 For detailed information, refer to:
 - [README.md](./README.md)

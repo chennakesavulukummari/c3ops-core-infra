@@ -8,13 +8,13 @@
 
 ## 📋 Overview
 
-This repository contains the complete Infrastructure as Code (IaC) for the C3OPS core infrastructure deployed on AWS. It implements a production-grade, highly-available 3-tier network architecture in the ap-south-2 (Mumbai) region.
+This repository contains the complete Infrastructure as Code (IaC) for the C3OPS core infrastructure deployed on AWS. It implements a production-grade, highly-available 3-tier network architecture in the ap-south-2 (Hyderabad) region.
 
 ### Key Specifications
 
-- **AWS Account**: 225989338000
+- **AWS Account**: 318095823459
 - **Environment**: preprod
-- **Region**: ap-south-2 (Mumbai)
+- **Region**: ap-south-2 (Hyderabad)
 - **Availability Zones**: 2 (ap-south-2a, ap-south-2b)
 - **Technology**: Terraform v1.9.5
 - **CI/CD**: AWS CodeBuild
@@ -32,30 +32,30 @@ This repository contains the complete Infrastructure as Code (IaC) for the C3OPS
 │  │                                                   │      │
 │  ▼                                                   ▼      │
 │ [Public Subnets]                          [NAT Gateway]     │
-│ • 10.0.1.0/24 (AZ-a)     ◄─────────────────────►          │
-│ • 10.0.2.0/24 (AZ-b)                        │               │
+│ • 10.0.1.0/28 (AZ-a)     ◄─────────────────────►          │
+│ • 10.0.2.0/28 (AZ-b)                        │               │
 │ (ALB, Bastion)                              │               │
 │                                              │               │
 │  ┌──────────────────────────────────────────┘               │
 │  │                                                          │
 │  ▼                                                          │
 │ [Private Web Subnets]                                      │
-│ • 10.0.11.0/24 (AZ-a)                                      │
-│ • 10.0.12.0/24 (AZ-b)                                      │
+│ • 10.0.3.0/24 (AZ-a)                                      │
+│ • 10.0.4.0/24 (AZ-b)                                      │
 │ (Web Servers)                                              │
 │                                                            │
 │  │                                                         │
 │  ▼                                                         │
 │ [Private App Subnets]                                      │
-│ • 10.0.21.0/24 (AZ-a)                                      │
-│ • 10.0.22.0/24 (AZ-b)                                      │
+│ • 10.0.5.0/24 (AZ-a)                                      │
+│ • 10.0.6.0/24 (AZ-b)                                      │
 │ (Application Servers)                                      │
 │                                                            │
 │  │                                                         │
 │  ▼                                                         │
 │ [Private DB Subnets]                                       │
-│ • 10.0.31.0/24 (AZ-a)                                      │
-│ • 10.0.32.0/24 (AZ-b)                                      │
+│ • 10.0.7.0/24 (AZ-a)                                      │
+│ • 10.0.8.0/24 (AZ-b)                                      │
 │ (Databases)                                                │
 │                                                            │
 └────────────────────────────────────────────────────────────┘
@@ -137,10 +137,10 @@ terraform output -json
 
 | Tier | Subnet 1 | Subnet 2 | Purpose |
 |------|----------|----------|---------|
-| Public | 10.0.1.0/24 | 10.0.2.0/24 | ALB, Bastion |
-| Web | 10.0.11.0/24 | 10.0.12.0/24 | Web Servers |
-| App | 10.0.21.0/24 | 10.0.22.0/24 | Applications |
-| DB | 10.0.31.0/24 | 10.0.32.0/24 | Databases |
+| Public | 10.0.1.0/28 | 10.0.2.0/28 | ALB, Bastion |
+| Web | 10.0.3.0/24 | 10.0.4.0/24 | Web Servers |
+| App | 10.0.5.0/24 | 10.0.6.0/24 | Applications |
+| DB | 10.0.7.0/24 | 10.0.8.0/24 | Databases |
 
 ### Security Groups
 

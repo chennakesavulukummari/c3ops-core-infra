@@ -29,8 +29,8 @@ terraform destroy
 
 | Item | Value |
 |------|-------|
-| **AWS Account** | 225989338000 |
-| **Region** | ap-south-2 (Mumbai) |
+| **AWS Account** | 318095823459 |
+| **Region** | ap-south-2 (Hyderabad) |
 | **Environment** | preprod |
 | **Infrastructure Name** | c3ops_preprod |
 | **Terraform Version** | 1.9.5+ |
@@ -44,25 +44,25 @@ terraform destroy
 ## 🏗️ Architecture Tiers
 
 ### Public Tier
-- **Subnets**: 10.0.1.0/24, 10.0.2.0/24
+- **Subnets**: 10.0.1.0/28, 10.0.2.0/28
 - **Route**: Direct to IGW
 - **Purpose**: ALB, Bastion Hosts
 - **Security Group**: Public SG
 
 ### Web Tier (Private)
-- **Subnets**: 10.0.11.0/24, 10.0.12.0/24
+- **Subnets**: 10.0.3.0/24, 10.0.4.0/24
 - **Route**: Through NAT Gateway
 - **Purpose**: Web Servers
 - **Security Group**: Web SG
 
 ### App Tier (Private)
-- **Subnets**: 10.0.21.0/24, 10.0.22.0/24
+- **Subnets**: 10.0.5.0/24, 10.0.6.0/24
 - **Route**: Through NAT Gateway
 - **Purpose**: Application Servers
 - **Security Group**: App SG
 
 ### DB Tier (Private)
-- **Subnets**: 10.0.31.0/24, 10.0.32.0/24
+- **Subnets**: 10.0.7.0/24, 10.0.8.0/24
 - **Route**: VPC internal only
 - **Purpose**: Databases
 - **Security Group**: DB SG
@@ -180,26 +180,26 @@ INTERNET
    |              |
    |              v
    |         [Public Subnets]
-   |         10.0.1.0/24
-   |         10.0.2.0/24
+   |         10.0.1.0/28
+   |         10.0.2.0/28
    |              |
    |              v
    |         [NAT Gateway]
    |              |
    v              v
 [Private Web Subnets]
-10.0.11.0/24
-10.0.12.0/24
+10.0.3.0/24
+10.0.4.0/24
    |
    v
 [Private App Subnets]
-10.0.21.0/24
-10.0.22.0/24
+10.0.5.0/24
+10.0.6.0/24
    |
    v
 [Private DB Subnets]
-10.0.31.0/24
-10.0.32.0/24
+10.0.7.0/24
+10.0.8.0/24
 ```
 
 ## 💰 Cost Summary
@@ -219,7 +219,7 @@ Total Estimated         = $37-42/month
 
 Quick checklist before deployment:
 
-- [ ] AWS Account access (225989338000)
+- [ ] AWS Account access (318095823459)
 - [ ] Region set to ap-south-2
 - [ ] Terraform v1.9.5+ installed
 - [ ] AWS CLI v2 installed
@@ -283,4 +283,4 @@ Quick checklist before deployment:
 
 **For detailed information, refer to [README.md](./README.md)**
 
-**Ready for deployment to AWS Account 225989338000, Region ap-south-2**
+**Ready for deployment to AWS Account 318095823459, Region ap-south-2**

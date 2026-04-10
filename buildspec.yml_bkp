@@ -49,3 +49,43 @@ artifacts:
     - terraform/preprod/tfplan.json
     - terraform/preprod/.terraform.lock.hcl
   name: TerraformArtifacts
+
+# Cache configuration
+cache:
+  paths:
+    - '/root/.terraform.d/**/*'
+    - 'terraform/**/.terraform/**/*'
+
+# Logs
+logs:
+  cloudwatch:
+    group-name: c3ops-core-infra-build
+    stream-name: codebuild-logs
+
+# Environment variables
+env:
+  variables:
+    AWS_REGION: ap-south-2
+    TF_VERSION: "1.9.5"
+    TF_INPUT: "false"
+  parameter-store:
+    AWS_ACCOUNT_ID: /c3ops/aws/account-id
+    TERRAFORM_ROLE: /c3ops/aws/terraform-role
+
+# Service role IAM permissions needed:
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Action": [
+#         "ec2:*",
+#         "s3:*",
+#         "dynamodb:*",
+#         "logs:*",
+#         "iam:*"
+#       ],
+#       "Resource": "*"
+#     }
+#   ]
+# }
