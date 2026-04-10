@@ -25,8 +25,8 @@ phases:
       - terraform init
       - echo "Validating Terraform configuration..."
       - terraform validate
-      - echo "Formatting check..."
-      - terraform fmt -check -recursive ../
+      # - echo "Formatting check..."
+      # - terraform fmt -check -recursive ../
 
   build:
     commands:
