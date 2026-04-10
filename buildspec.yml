@@ -32,7 +32,7 @@ phases:
     commands:
       - echo "Build phase started at $(date)"
       - echo "Planning infrastructure deployment..."
-      - terraform plan 
+      - terraform plan -lock=false
       - echo "Infrastructure plan saved to tfplan"
 
   post_build:
