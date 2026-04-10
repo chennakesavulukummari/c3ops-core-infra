@@ -32,14 +32,13 @@ phases:
     commands:
       - echo "Build phase started at $(date)"
       - echo "Planning infrastructure deployment..."
-      - terraform plan -out=tfplan -input=false
+      - terraform plan 
       - echo "Infrastructure plan saved to tfplan"
 
   post_build:
     commands:
       - echo "Post-build phase started at $(date)"
       - echo "Generate plan report..."
-      - terraform show -json tfplan > tfplan.json
       - echo "Build completed at $(date)"
 
 # Artifacts to save from the build
