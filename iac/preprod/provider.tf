@@ -22,9 +22,12 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = var.environment
-      Project     = var.project_name
-      ManagedBy   = "Terraform"
-      CreatedAt   = formatdate("YYYY-MM-DD", timestamp())
+      Application = var.project_name
+      CostCenter  = "c3ops"
+      Billing     = "shared"
+      Owner       = "platform-team"
     }
   }
 }
+
+
