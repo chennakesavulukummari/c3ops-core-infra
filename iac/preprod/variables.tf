@@ -13,7 +13,7 @@ variable "environment" {
 variable "project_name" {
   description = "Project name for C3OPS"
   type        = string
-  default     = "c3ops"
+  default     = "cloudcostconsole"
 }
 
 variable "core_infra_name" {

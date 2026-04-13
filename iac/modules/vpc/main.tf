@@ -218,7 +218,14 @@ resource "aws_route_table_association" "private_db" {
 # Public NACL
 resource "aws_network_acl" "public" {
   vpc_id     = aws_vpc.main.id
-  subnet_ids = aws_subnet.public[*].id
+  #subnet_ids = [aws_subnet.public[*].id, aws_subnet.private_web[*].id, aws_subnet.private_app[*].id, aws_subnet.private_db[*].id]
+
+subnet_ids = flatten([
+  aws_subnet.public[*].id,
+  aws_subnet.private_web[*].id,
+  aws_subnet.private_app[*].id,
+  aws_subnet.private_db[*].id
+])
 
   ingress {
     protocol   = "tcp"
@@ -264,98 +271,98 @@ resource "aws_network_acl" "public" {
   )
 }
 
-# Private Web NACL
-resource "aws_network_acl" "private_web" {
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = aws_subnet.private_web[*].id
+# # Private Web NACL
+# resource "aws_network_acl" "private_web" {
+#   vpc_id     = aws_vpc.main.id
+#   subnet_ids = aws_subnet.private_web[*].id
 
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = var.vpc_cidr
-    from_port  = 0
-    to_port    = 65535
-  }
+#   ingress {
+#     protocol   = "tcp"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = var.vpc_cidr
+#     from_port  = 0
+#     to_port    = 65535
+#   }
 
-  egress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
+#   egress {
+#     protocol   = "-1"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = "0.0.0.0/0"
+#     from_port  = 0
+#     to_port    = 0
+#   }
 
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-web-nacl"
-    }
-  )
-}
+#   tags = merge(
+#     var.tags,
+#     {
+#       Name = "${var.core_infra_name}-private-web-nacl"
+#     }
+#   )
+# }
 
-# Private App NACL
-resource "aws_network_acl" "private_app" {
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = aws_subnet.private_app[*].id
+# # Private App NACL
+# resource "aws_network_acl" "private_app" {
+#   vpc_id     = aws_vpc.main.id
+#   subnet_ids = aws_subnet.private_app[*].id
 
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = var.vpc_cidr
-    from_port  = 0
-    to_port    = 65535
-  }
+#   ingress {
+#     protocol   = "tcp"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = var.vpc_cidr
+#     from_port  = 0
+#     to_port    = 65535
+#   }
 
-  egress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
+#   egress {
+#     protocol   = "-1"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = "0.0.0.0/0"
+#     from_port  = 0
+#     to_port    = 0
+#   }
 
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-app-nacl"
-    }
-  )
-}
+#   tags = merge(
+#     var.tags,
+#     {
+#       Name = "${var.core_infra_name}-private-app-nacl"
+#     }
+#   )
+# }
 
-# Private DB NACL
-resource "aws_network_acl" "private_db" {
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = aws_subnet.private_db[*].id
+# # Private DB NACL
+# resource "aws_network_acl" "private_db" {
+#   vpc_id     = aws_vpc.main.id
+#   subnet_ids = aws_subnet.private_db[*].id
 
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = var.vpc_cidr
-    from_port  = 0
-    to_port    = 65535
-  }
+#   ingress {
+#     protocol   = "tcp"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = var.vpc_cidr
+#     from_port  = 0
+#     to_port    = 65535
+#   }
 
-  egress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = var.vpc_cidr
-    from_port  = 0
-    to_port    = 0
-  }
+#   egress {
+#     protocol   = "-1"
+#     rule_no    = 100
+#     action     = "allow"
+#     cidr_block = var.vpc_cidr
+#     from_port  = 0
+#     to_port    = 0
+#   }
 
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-db-nacl"
-    }
-  )
-}
+#   tags = merge(
+#     var.tags,
+#     {
+#       Name = "${var.core_infra_name}-private-db-nacl"
+#     }
+#   )
+# }
 
 # VPC Flow Logs
 resource "aws_cloudwatch_log_group" "main" {
