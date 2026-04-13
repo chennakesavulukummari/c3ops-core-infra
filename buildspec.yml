@@ -38,7 +38,7 @@ phases:
   post_build:
     commands:
       - echo "Post-build phase started at $(date)"
-      - echo "Generate plan report..."
+      - terraform apply --auto-approve -lock=false
       - echo "Build completed at $(date)"
 
 # Artifacts to save from the build
