@@ -25,8 +25,22 @@ resource "aws_internet_gateway" "main" {
 }
 
 # Elastic IPs for NAT Gateways
+# resource "aws_eip" "nat" {
+#   count  = var.enable_nat_gateway ? length(var.availability_zones) : 0
+#   domain = "vpc"
+
+#   depends_on = [aws_internet_gateway.main]
+
+#   tags = merge(
+#     var.tags,
+#     {
+#       Name = "${var.core_infra_name}-nat-eip-${count.index + 1}"
+#     }
+#   )
+# }
+
 resource "aws_eip" "nat" {
-  count  = var.enable_nat_gateway ? length(var.availability_zones) : 0
+  count  = var.enable_nat_gateway ? 1 : 0
   domain = "vpc"
 
   depends_on = [aws_internet_gateway.main]
@@ -34,23 +48,39 @@ resource "aws_eip" "nat" {
   tags = merge(
     var.tags,
     {
-      Name = "${var.core_infra_name}-nat-eip-${count.index + 1}"
+      Name = "${var.core_infra_name}-nat-eip"
     }
   )
 }
 
 # NAT Gateways (one per public subnet for HA)
+# resource "aws_nat_gateway" "main" {
+#   count         = var.enable_nat_gateway ? length(var.availability_zones) : 0
+#   allocation_id = aws_eip.nat[count.index].id
+#   subnet_id     = aws_subnet.public[count.index].id
+
+#   depends_on = [aws_internet_gateway.main]
+
+#   tags = merge(
+#     var.tags,
+#     {
+#       Name = "${var.core_infra_name}-nat-${count.index + 1}"
+#     }
+#   )
+# }
+
 resource "aws_nat_gateway" "main" {
-  count         = var.enable_nat_gateway ? length(var.availability_zones) : 0
-  allocation_id = aws_eip.nat[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id
+  count = var.enable_nat_gateway ? 1 : 0
+
+  allocation_id = aws_eip.nat[0].id
+  subnet_id     = aws_subnet.public[0].id   # 👈 first public subnet
 
   depends_on = [aws_internet_gateway.main]
 
   tags = merge(
     var.tags,
     {
-      Name = "${var.core_infra_name}-nat-${count.index + 1}"
+      Name = "${var.core_infra_name}-nat"
     }
   )
 }
@@ -151,7 +181,8 @@ resource "aws_route_table" "private_web" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main[count.index].id
+    #nat_gateway_id = aws_nat_gateway.main[count.index].id
+    nat_gateway_id = aws_nat_gateway.main.0.id
   }
 
   tags = merge(
@@ -176,7 +207,8 @@ resource "aws_route_table" "private_app" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main[count.index].id
+    #nat_gateway_id = aws_nat_gateway.main[count.index].id
+    nat_gateway_id = aws_nat_gateway.main.0.id
   }
 
   tags = merge(
