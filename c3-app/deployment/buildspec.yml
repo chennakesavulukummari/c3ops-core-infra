@@ -1,0 +1,163 @@
+version: 0.2
+
+# Environment variables
+env:
+  variables:
+    AWS_REGION: ap-south-2
+    NODE_ENV: production
+  parameter-store:
+    DB_PASSWORD: /c3-app/db-password
+
+phases:
+  pre_build:
+    commands:
+      - echo "=== Pre-build Phase ==="
+      - echo "Logging into AWS CodeBuild on $(date)"
+      - aws --version
+      - echo "Installing dependencies..."
+      - echo "Node version:" && node --version
+      - echo "npm version:" && npm --version
+      - echo "Installing npm packages..."
+      - npm install
+      - echo "Running linting..."
+      - npm run lint --if-present || true
+      - echo "Pre-build phase completed"
+
+  build:
+    commands:
+      - echo "=== Build Phase ==="
+      - echo "Building application on $(date)"
+      - npm run build
+      - echo "Build phase completed"
+      - echo "Build artifact size:" && du -sh dist/
+      
+  post_build:
+    commands:
+      - echo "=== Post-build Phase ==="
+      - echo "Preparing deployment artifacts..."
+      
+      # Create deployment package structure
+      - mkdir -p deploy/app deploy/config
+      - cp -r dist/* deploy/app/
+      - cp -r node_modules deploy/app/ || echo "Skipping node_modules in dist"
+      - cp package.json deploy/app/
+      - cp package-lock.json deploy/app/ || true
+      - cp .env.example deploy/app/.env.example
+      
+      # Create deployment scripts
+      - |
+        cat > deploy/config/deploy.sh << 'DEPLOY_SCRIPT'
+        #!/bin/bash
+        set -e
+        echo "Deploying C3OPS application..."
+        
+        # Stop existing PM2 processes
+        pm2 stop all || true
+        
+        # Extract application
+        cd /opt/app
+        tar -xzf app-bundle.tar.gz
+        
+        # Install/update dependencies
+        npm install --production
+        
+        # Set permissions
+        chown -R node:node /opt/app
+        
+        # Start application
+        sudo -u node pm2 start npm --name "c3-app" -- start
+        pm2 save
+        
+        echo "Deployment completed successfully!"
+        DEPLOY_SCRIPT
+      - chmod +x deploy/config/deploy.sh
+      
+      # Create health check script
+      - |
+        cat > deploy/config/health-check.sh << 'HEALTH_SCRIPT'
+        #!/bin/bash
+        max_attempts=30
+        timeout=10
+        attempt=0
+        
+        echo "Checking application health..."
+        
+        while [ $attempt -lt $max_attempts ]; do
+          echo "Attempt $((attempt + 1))/$max_attempts..."
+          if curl -f http://localhost:3000/ > /dev/null 2>&1; then
+            echo "✓ Application is healthy!"
+            exit 0
+          fi
+          
+          attempt=$((attempt + 1))
+          sleep $timeout
+        done
+        
+        echo "✗ Application health check failed!"
+        exit 1
+        HEALTH_SCRIPT
+      - chmod +x deploy/config/health-check.sh
+      
+      # Create rollback script
+      - |
+        cat > deploy/config/rollback.sh << 'ROLLBACK_SCRIPT'
+        #!/bin/bash
+        echo "Rolling back application..."
+        
+        # Stop current PM2 processes
+        pm2 stop all || true
+        
+        # Restore previous version (assuming backup exists)
+        if [ -d /opt/app/backup ]; then
+          rm -rf /opt/app/current
+          mv /opt/app/backup /opt/app/current
+          cd /opt/app/current
+          npm install --production
+          pm2 start npm --name "c3-app" -- start
+          echo "Rollback completed successfully!"
+        else
+          echo "No backup found for rollback!"
+          exit 1
+        fi
+        ROLLBACK_SCRIPT
+      - chmod +x deploy/config/rollback.sh
+      
+      # Bundle application for deployment
+      - cd deploy && tar -czf app-bundle.tar.gz app/ config/
+      - echo "Deployment bundle created successfully"
+      
+      # Upload to S3
+      - |
+        ARTIFACT_NAME="c3-app-$(date +%Y%m%d-%H%M%S).tar.gz"
+        echo "Uploading to S3: $ARTIFACT_NAME"
+        aws s3 cp deploy/app-bundle.tar.gz s3://$S3_BUCKET_NAME/$ARTIFACT_NAME
+        echo "Upload completed: s3://$S3_BUCKET_NAME/$ARTIFACT_NAME"
+        echo "$ARTIFACT_NAME" > ARTIFACT_NAME.txt
+      
+      - echo "=== Post-build Phase Completed ==="
+      - echo "Build completed on $(date)"
+
+artifacts:
+  files:
+    - deploy/app-bundle.tar.gz
+    - ARTIFACT_NAME.txt
+  name: C3AppBuildArtifact
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.npm/**/*'
+    - 'node_modules/**/*'
+
+reports:
+  LintReport:
+    files:
+      - 'eslint-report.json'
+    file-format: 'JSON'
+    discard-paths: yes
+
+finally:
+  - echo "=== Build Summary ==="
+  - echo "Build Status: $CODEBUILD_BUILD_SUCCEEDING"
+  - echo "Build ID: $CODEBUILD_BUILD_ID"
+  - echo "Build Log: https://console.aws.amazon.com/codesuite/codebuild/projects/$CODEBUILD_PROJECT_NAME/history"

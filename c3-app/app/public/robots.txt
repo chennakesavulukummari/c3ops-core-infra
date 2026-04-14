@@ -1,0 +1,43 @@
+# https://www.robotstxt.org/robotstxt.html
+# Robots.txt for C3Ops Website
+
+# Sitemap reference
+Sitemap: https://www.c3ops.io/sitemap.xml
+
+# Google Site Verification
+google-site-verification: googlef92e29f1ef20db86.html
+
+# Default rules for all bots
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /node_modules/
+
+# Crawl-delay for general crawlers
+Crawl-delay: 1
+Request-rate: 30/60
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Sitemap declaration
+Sitemap: https://www.c3ops.io/sitemap.xml
+
+# Prevent indexing of staging/test environments
+Disallow: /staging/
+Disallow: /test/
+Disallow: /tmp/

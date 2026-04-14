@@ -1,0 +1,329 @@
+###############################################################################
+# C3OPS APP - .gitignore
+# Prevents sensitive data and development artifacts from Git commits
+###############################################################################
+
+###############################################################################
+# NODE.JS / NPM / PACKAGE MANAGER
+###############################################################################
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production build
+/dist
+/build
+/out
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Lock files (optional - uncomment to include)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+###############################################################################
+# ENVIRONMENT VARIABLES & SECRETS
+###############################################################################
+# Environment files (contain sensitive credentials)
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+.env.*.local
+
+# AWS credentials
+.aws/
+aws-credentials.txt
+aws-creds.md
+
+# Local credentials
+credentials.json
+secrets.json
+local-creds.json
+
+###############################################################################
+# TERRAFORM & INFRASTRUCTURE
+###############################################################################
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/terraform.tfvars
+terraform/terraform.tfvars.json
+terraform/.terraform.tfstate.lock.info
+terraform/crash.log
+terraform/*.tfplan
+
+# CloudFormation
+*.cloudformation.json
+
+# SAM
+.aws-sam/
+
+###############################################################################
+# PRIVATE KEYS & CERTIFICATES
+###############################################################################
+# SSH Keys
+*.pem
+*.key
+*.ppk
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# SSL/TLS Certificates
+*.cert
+*.crt
+*.p12
+*.pfx
+
+# GPG/PGP keys
+*.gpg
+
+###############################################################################
+# DEPLOYMENT & BUILD ARTIFACTS
+###############################################################################
+# Lambda deployment packages
+*.zip
+lambda-*.zip
+function-*.zip
+!source.zip
+
+# Build artifacts
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.vuepress/dist/
+
+# Temporary build files
+*.tgz
+*.tar.gz
+
+###############################################################################
+# IDE & EDITOR
+###############################################################################
+# VS Code
+.vscode/
+*.code-workspace
+.vs/
+
+# JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+.vim/
+*.swp
+*.swo
+*~
+.vimrc
+
+###############################################################################
+# OPERATING SYSTEM FILES
+###############################################################################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+
+###############################################################################
+# SENSITIVE INFORMATION
+###############################################################################
+# Documentation with secrets
+*-creds.md
+*-secret.md
+*-password.md
+credentials.md
+secrets.md
+CREDENTIALS.md
+SECRETS.md
+
+# Credential files
+*-credentials.json
+*-secrets.json
+aws-credentials.json
+db-credentials.json
+
+# Route53 Zone IDs
+*-zone-id.txt
+zone-ids.md
+
+###############################################################################
+# DATABASE & CACHE
+###############################################################################
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+.cache/
+cache/
+.eslintcache
+
+###############################################################################
+# TESTING
+###############################################################################
+# Test coverage
+coverage/
+.nyc_output/
+.coverage
+*.lcov
+
+# Test artifacts
+test-results.json
+junit.xml
+
+###############################################################################
+# LOGS
+###############################################################################
+# Application logs
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Server logs
+server.log
+app.log
+
+###############################################################################
+# DOCKER & CONTAINER
+###############################################################################
+# Docker
+.docker/
+docker-compose.override.yml
+.dockerignore
+
+# Container artifacts
+*.container
+
+###############################################################################
+# AWS-SPECIFIC
+###############################################################################
+# AWS Lambda
+lambda-env.json
+lambda-*.zip
+.lambda/
+
+# AWS credentials (when accidentally in repo)
+~/.aws/credentials
+~/.aws/config
+
+# CloudFront
+cloudfront-dist.json
+
+###############################################################################
+# BACKUP & TEMPORARY FILES
+###############################################################################
+# Backups
+*.backup
+*.bak
+*.bak.*
+*.orig
+*backup/
+backups/
+
+# Archives
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Temporary files
+*.tmp
+*.temp
+*~
+.tmp/
+
+###############################################################################
+# CI/CD & GITHUB
+###############################################################################
+# GitHub Actions secrets
+.github/workflows/secrets.json
+.github/credentials.yml
+
+# CI/CD logs
+ci-cd-logs/
+pipeline-logs/
+
+###############################################################################
+# LOCAL DEVELOPMENT
+###############################################################################
+# Local settings
+local/
+.local/
+.env.local
+
+# Development server
+vite.config.local.js
+
+# Hot module replacement
+.vite/
+
+###############################################################################
+# MISC
+###############################################################################
+# Package manager files
+.pnpm-store/
+.yarn/
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Storybook
+.storybook-cache/
+
+# Misc
+.cache
+.parcel-cache
+.temp
+
+###############################################################################
+# ALLOW SPECIFIC FILES (use ! to allow)
+###############################################################################
+# Allow example/template files
+!.env.example
+!.env.*.example
+!terraform.tfvars.example
+!*-example.json
+!*-template.*
+!.gitignore
+!.gitkeep

@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply antialiased;
+    text-rendering: optimizeLegibility;
+    /* Improve scroll performance */
+    overscroll-behavior-y: none;
+  }
+  
+  /* Optimize scroll performance */
+  * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Ensure mobile touch targets are properly sized (WCAG 2.1 Level AAA) */
+  @media (max-width: 768px) {
+    a, button {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Optimize images for mobile */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Prevent text size adjustment on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-primary-600 font-medium py-3 px-8 rounded-lg border border-primary-600 transition-all duration-300;
+  }
+  
+  .section-padding {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .container-custom {
+    @apply max-w-6xl mx-auto;
+  }
+
+  /* Mobile menu fix - ensure proper touch handling */
+  @media (max-width: 768px) {
+    nav a, nav button {
+      -webkit-tap-highlight-color: rgba(34, 197, 94, 0.2);
+      tap-highlight-color: rgba(34, 197, 94, 0.2);
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+
+    /* Improve scrolling performance on mobile */
+    .overflow-y-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Accessibility improvements */
+  .focus-visible:focus {
+    outline: 2px solid #15803d;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Blob animation */
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}

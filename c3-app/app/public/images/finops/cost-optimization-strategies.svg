@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="costGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#1f2937">
+    Cost Optimization Strategies
+  </text>
+  
+  <!-- Strategy Categories -->
+  <g>
+    <!-- Rightsizing -->
+    <rect x="50" y="70" width="150" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="125" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1d4ed8">
+      Rightsizing
+    </text>
+    <text x="125" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e40af">
+      • Compute sizing
+    </text>
+    <text x="125" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e40af">
+      • Storage optimization
+    </text>
+    <text x="125" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e40af">
+      • Database tuning
+    </text>
+    <text x="125" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e40af">
+      • Network optimization
+    </text>
+  </g>
+  
+  <g>
+    <!-- Scheduling -->
+    <rect x="230" y="70" width="150" height="100" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+    <text x="305" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#059669">
+      Scheduling
+    </text>
+    <text x="305" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#047857">
+      • Auto-scaling
+    </text>
+    <text x="305" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#047857">
+      • Start/stop automation
+    </text>
+    <text x="305" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#047857">
+      • Lifecycle management
+    </text>
+    <text x="305" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#047857">
+      • Policy enforcement
+    </text>
+  </g>
+  
+  <g>
+    <!-- Commitment Management -->
+    <rect x="410" y="70" width="150" height="100" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="485" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#d97706">
+      Commitments
+    </text>
+    <text x="485" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Reserved Instances
+    </text>
+    <text x="485" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Savings Plans
+    </text>
+    <text x="485" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Spot Instances
+    </text>
+    <text x="485" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Contract optimization
+    </text>
+  </g>
+  
+  <g>
+    <!-- Architecture -->
+    <rect x="590" y="70" width="150" height="100" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="665" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7c3aed">
+      Architecture
+    </text>
+    <text x="665" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#6d28d9">
+      • Serverless
+    </text>
+    <text x="665" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#6d28d9">
+      • Containerization
+    </text>
+    <text x="665" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#6d28d9">
+      • Multi-cloud strategy
+    </text>
+    <text x="665" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#6d28d9">
+      • Edge computing
+    </text>
+  </g>
+  
+  <!-- Optimization Process Flow -->
+  <text x="400" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#374151">
+    Optimization Process
+  </text>
+  
+  <!-- Process Steps -->
+  <g>
+    <!-- Identify -->
+    <circle cx="150" cy="280" r="40" fill="#fecaca" stroke="#ef4444" stroke-width="2"/>
+    <text x="150" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#dc2626">
+      IDENTIFY
+    </text>
+    <text x="150" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#dc2626">
+      Opportunities
+    </text>
+  </g>
+  
+  <g>
+    <!-- Prioritize -->
+    <circle cx="300" cy="280" r="40" fill="#fed7aa" stroke="#f97316" stroke-width="2"/>
+    <text x="300" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ea580c">
+      PRIORITIZE
+    </text>
+    <text x="300" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#ea580c">
+      Actions
+    </text>
+  </g>
+  
+  <g>
+    <!-- Implement -->
+    <circle cx="500" cy="280" r="40" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="500" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2563eb">
+      IMPLEMENT
+    </text>
+    <text x="500" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2563eb">
+      Changes
+    </text>
+  </g>
+  
+  <g>
+    <!-- Monitor -->
+    <circle cx="650" cy="280" r="40" fill="#bbf7d0" stroke="#10b981" stroke-width="2"/>
+    <text x="650" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#059669">
+      MONITOR
+    </text>
+    <text x="650" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#059669">
+      &amp; Iterate
+    </text>
+  </g>
+  
+  <!-- Arrows between process steps -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" 
+     refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+  </defs>
+  
+  <line x1="190" y1="280" x2="260" y2="280" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="340" y1="280" x2="460" y2="280" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="540" y1="280" x2="610" y2="280" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Feedback loop arrow -->
+  <path d="M 650 320 Q 400 350 150 320" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-dasharray="5,5"/>
+  <text x="400" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">
+    Continuous Improvement Loop
+  </text>
+  
+  <!-- Value Metrics -->
+  <rect x="250" y="400" width="300" height="70" rx="10" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+  <text x="400" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">
+    Key Optimization Metrics
+  </text>
+  <text x="320" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Cost per unit
+  </text>
+  <text x="400" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Resource utilization
+  </text>
+  <text x="480" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Savings achieved
+  </text>
+  <text x="320" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Performance impact
+  </text>
+  <text x="400" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Time to optimization
+  </text>
+  <text x="480" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1f2937">
+    • Business value ROI
+  </text>
+</svg>

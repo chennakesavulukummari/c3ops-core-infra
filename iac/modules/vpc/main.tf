@@ -102,50 +102,18 @@ resource "aws_subnet" "public" {
   )
 }
 
-# PRIVATE WEB SUBNETS
-resource "aws_subnet" "private_web" {
-  count             = length(var.private_web_subnet_cidrs)
+# PRIVATE SUBNETS
+resource "aws_subnet" "private" {
+  count             = length(var.private_subnet_cidrs)
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_web_subnet_cidrs[count.index]
+  cidr_block        = var.private_subnet_cidrs[count.index]
   availability_zone = var.availability_zones[count.index]
 
   tags = merge(
     var.tags,
     {
-      Name = "${var.core_infra_name}-private-web-subnet-${count.index + 1}"
-      Tier = "Private-Web"
-    }
-  )
-}
-
-# PRIVATE APP SUBNETS
-resource "aws_subnet" "private_app" {
-  count             = length(var.private_app_subnet_cidrs)
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_app_subnet_cidrs[count.index]
-  availability_zone = var.availability_zones[count.index]
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-app-subnet-${count.index + 1}"
-      Tier = "Private-App"
-    }
-  )
-}
-
-# PRIVATE DB SUBNETS
-resource "aws_subnet" "private_db" {
-  count             = length(var.private_db_subnet_cidrs)
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_db_subnet_cidrs[count.index]
-  availability_zone = var.availability_zones[count.index]
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-db-subnet-${count.index + 1}"
-      Tier = "Private-DB"
+      Name = "${var.core_infra_name}-private-subnet-${count.index + 1}"
+      Tier = "Private"
     }
   )
 }
@@ -174,76 +142,28 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# PRIVATE WEB ROUTE TABLES (NAT route)
-resource "aws_route_table" "private_web" {
-  count  = var.enable_nat_gateway ? length(var.availability_zones) : 0
+# PRIVATE ROUTE TABLE (NAT route)
+resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    #nat_gateway_id = aws_nat_gateway.main[count.index].id
-    nat_gateway_id = aws_nat_gateway.main.0.id
+    nat_gateway_id = var.enable_nat_gateway ? aws_nat_gateway.main[0].id : null
   }
 
   tags = merge(
     var.tags,
     {
-      Name = "${var.core_infra_name}-private-web-rt-${count.index + 1}"
+      Name = "${var.core_infra_name}-private-rt"
     }
   )
 }
 
-# Private Web Route Table Associations
-resource "aws_route_table_association" "private_web" {
-  count          = length(aws_subnet.private_web)
-  subnet_id      = aws_subnet.private_web[count.index].id
-  route_table_id = aws_route_table.private_web[count.index].id
-}
-
-# PRIVATE APP ROUTE TABLES (NAT route)
-resource "aws_route_table" "private_app" {
-  count  = var.enable_nat_gateway ? length(var.availability_zones) : 0
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block     = "0.0.0.0/0"
-    #nat_gateway_id = aws_nat_gateway.main[count.index].id
-    nat_gateway_id = aws_nat_gateway.main.0.id
-  }
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-app-rt-${count.index + 1}"
-    }
-  )
-}
-
-# Private App Route Table Associations
-resource "aws_route_table_association" "private_app" {
-  count          = length(aws_subnet.private_app)
-  subnet_id      = aws_subnet.private_app[count.index].id
-  route_table_id = aws_route_table.private_app[count.index].id
-}
-
-# PRIVATE DB ROUTE TABLES (No external route - DB only within VPC)
-resource "aws_route_table" "private_db" {
-  count  = length(var.availability_zones)
-  vpc_id = aws_vpc.main.id
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.core_infra_name}-private-db-rt-${count.index + 1}"
-    }
-  )
-}
-
-# Private DB Route Table Associations
-resource "aws_route_table_association" "private_db" {
-  count          = length(aws_subnet.private_db)
-  subnet_id      = aws_subnet.private_db[count.index].id
-  route_table_id = aws_route_table.private_db[count.index].id
+# Private Route Table Associations
+resource "aws_route_table_association" "private" {
+  count          = length(aws_subnet.private)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
 }
 
 # Network ACLs for security layers
@@ -254,36 +174,16 @@ resource "aws_network_acl" "public" {
 
 subnet_ids = flatten([
   aws_subnet.public[*].id,
-  aws_subnet.private_web[*].id,
-  aws_subnet.private_app[*].id,
-  aws_subnet.private_db[*].id
+  aws_subnet.private[*].id
 ])
 
   ingress {
-    protocol   = "tcp"
+    protocol   = "-1"
     rule_no    = 100
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 80
-    to_port    = 80
-  }
-
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 110
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 443
-    to_port    = 443
-  }
-
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 120
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 1024
-    to_port    = 65535
+    from_port  = 0
+    to_port    = 0
   }
 
   egress {
@@ -302,99 +202,6 @@ subnet_ids = flatten([
     }
   )
 }
-
-# # Private Web NACL
-# resource "aws_network_acl" "private_web" {
-#   vpc_id     = aws_vpc.main.id
-#   subnet_ids = aws_subnet.private_web[*].id
-
-#   ingress {
-#     protocol   = "tcp"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = var.vpc_cidr
-#     from_port  = 0
-#     to_port    = 65535
-#   }
-
-#   egress {
-#     protocol   = "-1"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = "0.0.0.0/0"
-#     from_port  = 0
-#     to_port    = 0
-#   }
-
-#   tags = merge(
-#     var.tags,
-#     {
-#       Name = "${var.core_infra_name}-private-web-nacl"
-#     }
-#   )
-# }
-
-# # Private App NACL
-# resource "aws_network_acl" "private_app" {
-#   vpc_id     = aws_vpc.main.id
-#   subnet_ids = aws_subnet.private_app[*].id
-
-#   ingress {
-#     protocol   = "tcp"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = var.vpc_cidr
-#     from_port  = 0
-#     to_port    = 65535
-#   }
-
-#   egress {
-#     protocol   = "-1"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = "0.0.0.0/0"
-#     from_port  = 0
-#     to_port    = 0
-#   }
-
-#   tags = merge(
-#     var.tags,
-#     {
-#       Name = "${var.core_infra_name}-private-app-nacl"
-#     }
-#   )
-# }
-
-# # Private DB NACL
-# resource "aws_network_acl" "private_db" {
-#   vpc_id     = aws_vpc.main.id
-#   subnet_ids = aws_subnet.private_db[*].id
-
-#   ingress {
-#     protocol   = "tcp"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = var.vpc_cidr
-#     from_port  = 0
-#     to_port    = 65535
-#   }
-
-#   egress {
-#     protocol   = "-1"
-#     rule_no    = 100
-#     action     = "allow"
-#     cidr_block = var.vpc_cidr
-#     from_port  = 0
-#     to_port    = 0
-#   }
-
-#   tags = merge(
-#     var.tags,
-#     {
-#       Name = "${var.core_infra_name}-private-db-nacl"
-#     }
-#   )
-# }
 
 # VPC Flow Logs
 resource "aws_cloudwatch_log_group" "main" {

@@ -1,0 +1,60 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo install phase
+  pre_build:
+    commands:
+      - pwd
+      - ls -lrta
+      - npm install --location=global @angular/cli@latest
+      # - npm install --location=global @angular/cli@13.3.8
+      - npm install --legacy-peer-deps
+      # - npm update --force
+      - npm install popper.js --save
+  build:
+    commands:
+      - echo Build Started
+      - pwd
+      - ls -lrta
+      - npm run build
+      - cd dist/cloudbinary
+      - ls -lrta
+      - echo Files were uploaded unto s3 bucket
+      # Get the size of the bucket
+      #- aws s3 ls s3://c3ops.io/  --recursive --human-readable --summarize --region ap-south-2
+      # Remove Bucket Content
+      - aws s3 rm s3://c3ops.io/ --recursive --region ap-south-2 
+      - aws s3 rm s3://c3ops-io-website-318095823459/ --recursive --region ap-south-2 --profile c3
+
+      # Upload the code to s3 bucket with SEO & performance optimization
+      - aws s3 sync . s3://c3ops.io/ --region ap-south-2 --exclude ".DS_Store" --exclude "*.map" --exclude ".env*" --cache-control "public,max-age=31536000" --expires 2027-03-16T00:00:00Z
+      - aws s3 sync . s3://c3ops-io-website-318095823459/ --region ap-south-2 --exclude ".DS_Store" --exclude "*.map" --exclude ".env*" --cache-control "public,max-age=31536000" --expires 2027-03-16T00:00:00Z
+      # Set HTML files to no-cache for dynamic updates
+      - aws s3 cp . s3://c3ops.io/ --recursive --include "*.html" --region ap-south-2 --cache-control "public,max-age=3600" --content-type "text/html; charset=utf-8"
+      - aws s3 cp . s3://c3ops-io-website-318095823459/ --recursive --include "*.html" --region ap-south-2 --cache-control "public,max-age=3600" --content-type "text/html; charset=utf-8"
+      # Ensure robots.txt and sitemap are crawlable
+      - aws s3 cp robots.txt s3://c3ops.io/robots.txt --region ap-south-2 --cache-control "public,max-age=86400" --content-type "text/plain"
+      - aws s3 cp robots.txt s3://c3ops-io-website-318095823459/robots.txt --region ap-south-2 --cache-control "public,max-age=86400" --content-type "text/plain"
+      - aws s3 cp sitemap.xml s3://c3ops.io/sitemap.xml --region ap-south-2 --cache-control "public,max-age=86400" --content-type "application/xml"
+      - aws s3 cp sitemap.xml s3://c3ops-io-website-318095823459/sitemap.xml --region ap-south-2 --cache-control "public,max-age=86400" --content-type "application/xml"
+      - echo "SEO optimization complete - cache headers and content types configured"
+
+      - aws s3 sync . s3://c3ops-io-website-318095823459/ --region ap-south-2 --exclude ".DS_Store" --exclude "*.map" --exclude ".env*" --cache-control "public,max-age=31536000" --expires 2027-03-16T00:00:00Z  --profile c3
+      - aws s3 sync . s3://c3cloudcostconsole/ --region ap-south-2 --profile c3
+
+      
+  post_build:
+    commands:
+      - echo "post build started `date`"
+      # Deploy the code using cloudfront Distribution
+      # - aws cloudfront create-invalidation --distribution-id EZGPJUCJ1G2CY --paths "/*"
+      - aws cloudfront create-invalidation --distribution-id E1P2QRT0GYEL2J --paths "/*" --profile c3
+      - echo "Code has been deployed unto CloudFront `date`"
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes

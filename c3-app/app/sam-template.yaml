@@ -1,0 +1,243 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2013-05-15
+Description: 'C3Ops FinOps Driven DevOps - Serverless Backend for Demo Requests'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name
+  
+  AdminEmail:
+    Type: String
+    Default: info@c3ops.io
+    Description: Admin email for notifications
+  
+  FromEmail:
+    Type: String
+    Default: info@c3ops.io
+    Description: Email address to send from (must be verified in SES)
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        S3_BUCKET_NAME: !Ref DemoRequestsBucket
+        SES_FROM_EMAIL: !Ref FromEmail
+        SES_ADMIN_EMAIL: !Ref AdminEmail
+        ENVIRONMENT: !Ref Environment
+
+Resources:
+  # S3 Bucket for storing demo requests
+  DemoRequestsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'c3ops-demo-requests-${AWS::AccountId}-${AWS::Region}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Application
+          Value: C3Ops
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Lambda Execution Role with S3 and SES permissions
+  DemoRequestsLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'c3ops-demo-requests-lambda-role-${Environment}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: S3Access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:PutObject'
+                  - 's3:GetObject'
+                  - 's3:ListBucket'
+                Resource:
+                  - !GetAtt DemoRequestsBucket.Arn
+                  - !Sub '${DemoRequestsBucket.Arn}/*'
+        - PolicyName: SESAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ses:SendEmail'
+                  - 'ses:SendRawEmail'
+                Resource: '*'
+
+  # Lambda Function for handling demo requests
+  DemoRequestsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'c3ops-demo-requests-${Environment}'
+      CodeUri: ./lambda
+      Handler: index.handler
+      Role: !GetAtt DemoRequestsLambdaRole.Arn
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref DemoRequestsBucket
+          SES_FROM_EMAIL: !Ref FromEmail
+          SES_ADMIN_EMAIL: !Ref AdminEmail
+          AWS_REGION: !Ref AWS::Region
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DemoRequestsApi
+            Path: /demo-requests
+            Method: POST
+            Auth:
+              DefaultAuthorizer: NONE
+      Tags:
+        Application: C3Ops
+        Environment: !Ref Environment
+
+  # API Gateway for the Lambda function
+  DemoRequestsApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub 'c3ops-demo-requests-api-${Environment}'
+      Description: 'C3Ops Demo Requests API'
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      Policy:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: 'execute-api:Invoke'
+            Resource: 'execute-api:/*'
+
+  # API Gateway Resource
+  DemoRequestsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref DemoRequestsApi
+      ParentId: !GetAtt DemoRequestsApi.RootResourceId
+      PathPart: demo-requests
+
+  # API Gateway Method for POST
+  DemoRequestsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref DemoRequestsApi
+      ResourceId: !Ref DemoRequestsResource
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub
+          - 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations'
+          - LambdaArn: !GetAtt DemoRequestsFunction.Arn
+
+  # API Gateway Method for OPTIONS (CORS preflight)
+  DemoRequestsOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref DemoRequestsApi
+      ResourceId: !Ref DemoRequestsResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
+  # API Gateway Deployment
+  DemoRequestsApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - DemoRequestsMethod
+      - DemoRequestsOptionsMethod
+    Properties:
+      RestApiId: !Ref DemoRequestsApi
+      StageName: !Ref Environment
+
+  # Lambda permission for API Gateway
+  DemoRequestsLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref DemoRequestsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${DemoRequestsApi}/*/*'
+
+  # CloudWatch Log Group for Lambda
+  DemoRequestsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/c3ops-demo-requests-${Environment}'
+      RetentionInDays: 30
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${DemoRequestsApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}'
+    Export:
+      Name: !Sub '${AWS::StackName}-ApiEndpoint'
+
+  DemoRequestsApiId:
+    Description: API Gateway API ID
+    Value: !Ref DemoRequestsApi
+    Export:
+      Name: !Sub '${AWS::StackName}-ApiId'
+
+  DemoRequestsBucketName:
+    Description: S3 bucket name for demo requests
+    Value: !Ref DemoRequestsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketName'
+
+  DemoRequestsBucketArn:
+    Description: S3 bucket ARN
+    Value: !GetAtt DemoRequestsBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketArn'
+
+  DemoRequestsFunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt DemoRequestsFunction.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-LambdaArn'

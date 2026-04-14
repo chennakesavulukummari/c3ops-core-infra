@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aiGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="aiGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f1f5f9"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e293b">
+    AI Cost Optimization Framework
+  </text>
+  
+  <!-- AI Workload Types -->
+  <g>
+    <rect x="50" y="70" width="200" height="120" rx="15" fill="url(#aiGrad1)" stroke="#6d28d9" stroke-width="2"/>
+    <text x="150" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">
+      AI Workload Types
+    </text>
+    
+    <circle cx="100" cy="130" r="15" fill="white" fill-opacity="0.9"/>
+    <text x="100" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#6d28d9">
+      GPU
+    </text>
+    <text x="140" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      Training
+    </text>
+    
+    <circle cx="100" cy="155" r="15" fill="white" fill-opacity="0.9"/>
+    <text x="100" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#6d28d9">
+      CPU
+    </text>
+    <text x="140" y="155" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      Inference
+    </text>
+    
+    <circle cx="100" cy="180" r="15" fill="white" fill-opacity="0.9"/>
+    <text x="100" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#6d28d9">
+      API
+    </text>
+    <text x="140" y="180" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      Services
+    </text>
+  </g>
+  
+  <!-- Cost Drivers -->
+  <g>
+    <rect x="280" y="70" width="200" height="120" rx="15" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="380" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#92400e">
+      Unique Cost Drivers
+    </text>
+    
+    <text x="290" y="115" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • High-cost GPU/accelerators
+    </text>
+    <text x="290" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Memory-intensive workloads
+    </text>
+    <text x="290" y="145" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Token-based pricing models
+    </text>
+    <text x="290" y="160" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Variable usage patterns
+    </text>
+    <text x="290" y="175" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="#b45309">
+      • Data processing overhead
+    </text>
+  </g>
+  
+  <!-- Optimization Strategies -->
+  <g>
+    <rect x="510" y="70" width="240" height="120" rx="15" fill="url(#aiGrad2)" stroke="#047857" stroke-width="2"/>
+    <text x="630" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">
+      Optimization Strategies
+    </text>
+    
+    <text x="520" y="115" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      • GPU utilization monitoring
+    </text>
+    <text x="520" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      • Model efficiency optimization
+    </text>
+    <text x="520" y="145" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      • Batch processing optimization
+    </text>
+    <text x="520" y="160" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      • Auto-scaling for inference
+    </text>
+    <text x="520" y="175" text-anchor="start" font-family="Arial, sans-serif" font-size="11" fill="white">
+      • Spot instances for training
+    </text>
+  </g>
+  
+  <!-- AI Cost Lifecycle -->
+  <text x="400" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1e293b">
+    AI Cost Lifecycle Management
+  </text>
+  
+  <!-- Lifecycle Stages -->
+  <g>
+    <!-- Experimentation -->
+    <rect x="50" y="260" width="140" height="80" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+    <text x="120" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#be185d">
+      Experimentation
+    </text>
+    <text x="120" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#be185d">
+      • Research &amp; Development
+    </text>
+    <text x="120" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#be185d">
+      • Proof of Concepts
+    </text>
+    <text x="120" y="331" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#be185d">
+      • Cost: Variable/High
+    </text>
+  </g>
+  
+  <g>
+    <!-- Training -->
+    <rect x="210" y="260" width="140" height="80" rx="10" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="280" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7c3aed">
+      Training
+    </text>
+    <text x="280" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7c3aed">
+      • Model Development
+    </text>
+    <text x="280" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7c3aed">
+      • Data Processing
+    </text>
+    <text x="280" y="331" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7c3aed">
+      • Cost: Batch/Intensive
+    </text>
+  </g>
+  
+  <g>
+    <!-- Deployment -->
+    <rect x="370" y="260" width="140" height="80" rx="10" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="440" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1d4ed8">
+      Deployment
+    </text>
+    <text x="440" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1d4ed8">
+      • Model Serving
+    </text>
+    <text x="440" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1d4ed8">
+      • API Services
+    </text>
+    <text x="440" y="331" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1d4ed8">
+      • Cost: Continuous
+    </text>
+  </g>
+  
+  <g>
+    <!-- Monitoring -->
+    <rect x="530" y="260" width="140" height="80" rx="10" fill="#bbf7d0" stroke="#10b981" stroke-width="2"/>
+    <text x="600" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#059669">
+      Monitoring
+    </text>
+    <text x="600" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#059669">
+      • Performance Tracking
+    </text>
+    <text x="600" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#059669">
+      • Cost Attribution
+    </text>
+    <text x="600" y="331" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#059669">
+      • Cost: Operational
+    </text>
+  </g>
+  
+  <!-- Flow Arrows -->
+  <defs>
+    <marker id="aiArrow" markerWidth="10" markerHeight="7" 
+     refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+  
+  <line x1="190" y1="300" x2="210" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#aiArrow)"/>
+  <line x1="350" y1="300" x2="370" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#aiArrow)"/>
+  <line x1="510" y1="300" x2="530" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#aiArrow)"/>
+  
+  <!-- GenAI Specific Section -->
+  <text x="400" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">
+    GenAI Token Economics
+  </text>
+  
+  <g>
+    <rect x="100" y="410" width="600" height="150" rx="15" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+    
+    <!-- Token Pricing -->
+    <circle cx="200" cy="460" r="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="200" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#d97706">
+      TOKEN
+    </text>
+    <text x="200" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#d97706">
+      PRICING
+    </text>
+    
+    <text x="200" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#92400e">
+      Input vs Output tokens
+    </text>
+    <text x="200" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#92400e">
+      Model complexity tiers
+    </text>
+    <text x="200" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#92400e">
+      Volume discounting
+    </text>
+    
+    <!-- Usage Optimization -->
+    <circle cx="400" cy="460" r="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="400" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8">
+      USAGE
+    </text>
+    <text x="400" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8">
+      OPTIMIZATION
+    </text>
+    
+    <text x="400" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1e40af">
+      Prompt engineering
+    </text>
+    <text x="400" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1e40af">
+      Response caching
+    </text>
+    <text x="400" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1e40af">
+      Model right-sizing
+    </text>
+    
+    <!-- Value Measurement -->
+    <circle cx="600" cy="460" r="30" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+    <text x="600" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#059669">
+      VALUE
+    </text>
+    <text x="600" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#059669">
+      MEASUREMENT
+    </text>
+    
+    <text x="600" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#047857">
+      Business impact ROI
+    </text>
+    <text x="600" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#047857">
+      Quality vs cost balance
+    </text>
+    <text x="600" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#047857">
+      User adoption metrics
+    </text>
+    
+    <!-- Connecting arrows -->
+    <line x1="230" y1="460" x2="370" y2="460" stroke="#6b7280" stroke-width="2" marker-end="url(#aiArrow)"/>
+    <line x1="430" y1="460" x2="570" y2="460" stroke="#6b7280" stroke-width="2" marker-end="url(#aiArrow)"/>
+  </g>
+</svg>

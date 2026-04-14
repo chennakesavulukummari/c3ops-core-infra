@@ -1,0 +1,119 @@
+service: c3ops-website-typeform
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-2
+  memorySize: 256
+  timeout: 30
+  environment:
+    GMAIL_USER: ${env:GMAIL_USER}
+    GMAIL_APP_PASSWORD: ${env:GMAIL_APP_PASSWORD}
+    GMAIL_TO_EMAIL: ${env:GMAIL_TO_EMAIL}
+    DYNAMODB_TABLE: c3ops-website-typeform-dynamodb
+    FROM_EMAIL: info@c3ops.io
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/c3ops-website-typeform-dynamodb"
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+            - ses:GetSendQuota
+            - ses:GetSendStatistics
+          Resource: "*"
+
+functions:
+  api:
+    handler: server/lambda.handler
+    name: c3ops-website-typeform-api
+    events:
+      - httpApi:
+          path: /api/health
+          method: get
+      - httpApi:
+          path: /api/send-demo-request
+          method: post
+          cors: true
+  
+  submitTypeform:
+    handler: lambda/typeform-handler.submitTypeform
+    name: c3ops-website-typeform-submit
+    events:
+      - httpApi:
+          path: /api/typeform/submit
+          method: post
+          cors: true
+      - httpApi:
+          path: /api/typeform/submit
+          method: options
+          cors: true
+  
+  getSubmissions:
+    handler: lambda/typeform-handler.getSubmissions
+    name: c3ops-website-typeform-get
+    events:
+      - httpApi:
+          path: /api/typeform/submissions
+          method: get
+          cors: true
+      - httpApi:
+          path: /api/typeform/submissions
+          method: options
+          cors: true
+
+resources:
+  Resources:
+    TypeformSubmissionsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: c3ops-website-typeform-dynamodb
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: submittedAt
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: email-index
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+              - AttributeName: submittedAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            BillingMode: PAY_PER_REQUEST
+          - IndexName: submittedAt-index
+            KeySchema:
+              - AttributeName: submittedAt
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            BillingMode: PAY_PER_REQUEST
+        BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        Tags:
+          - Key: Service
+            Value: c3ops-website-typeform
+          - Key: Environment
+            Value: ${self:provider.stage}
+
+plugins:
+  - serverless-offline

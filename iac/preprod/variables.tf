@@ -35,21 +35,9 @@ variable "public_subnet_cidrs" {
 }
 
 variable "private_web_subnet_cidrs" {
-  description = "CIDR blocks for private web subnets"
+  description = "CIDR blocks for private subnets"
   type        = list(string)
   default     = ["10.0.3.0/24", "10.0.4.0/24"]
-}
-
-variable "private_app_subnet_cidrs" {
-  description = "CIDR blocks for private app subnets"
-  type        = list(string)
-  default     = ["10.0.5.0/24", "10.0.6.0/24"]
-}
-
-variable "private_db_subnet_cidrs" {
-  description = "CIDR blocks for private DB subnets"
-  type        = list(string)
-  default     = ["10.0.7.0/24", "10.0.8.0/24"]
 }
 
 variable "availability_zones" {

@@ -1,0 +1,20 @@
+{
+  "Comment": "Add Google Workspace MX records",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "c3ops.io.",
+        "Type": "MX",
+        "TTL": 300,
+        "ResourceRecords": [
+          { "Value": "1 ASPMX.L.GOOGLE.COM." },
+          { "Value": "5 ALT1.ASPMX.L.GOOGLE.COM." },
+          { "Value": "5 ALT2.ASPMX.L.GOOGLE.COM." },
+          { "Value": "10 ALT3.ASPMX.L.GOOGLE.COM." },
+          { "Value": "10 ALT4.ASPMX.L.GOOGLE.COM." }
+        ]
+      }
+    }
+  ]
+}

@@ -13,19 +13,9 @@ output "public_subnet_ids" {
   value       = module.vpc.public_subnet_ids
 }
 
-output "private_web_subnet_ids" {
-  description = "Private web tier subnet IDs"
-  value       = module.vpc.private_web_subnet_ids
-}
-
-output "private_app_subnet_ids" {
-  description = "Private app tier subnet IDs"
-  value       = module.vpc.private_app_subnet_ids
-}
-
-output "private_db_subnet_ids" {
-  description = "Private DB tier subnet IDs"
-  value       = module.vpc.private_db_subnet_ids
+output "private_subnet_ids" {
+  description = "Private subnet IDs"
+  value       = module.vpc.private_subnet_ids
 }
 
 output "nat_gateway_ips" {
@@ -43,19 +33,9 @@ output "public_route_table_id" {
   value       = module.vpc.public_route_table_id
 }
 
-output "private_web_route_table_ids" {
-  description = "Private web tier route table IDs"
-  value       = module.vpc.private_web_route_table_ids
-}
-
-output "private_app_route_table_ids" {
-  description = "Private app tier route table IDs"
-  value       = module.vpc.private_app_route_table_ids
-}
-
-output "private_db_route_table_ids" {
-  description = "Private DB tier route table IDs"
-  value       = module.vpc.private_db_route_table_ids
+output "private_route_table_id" {
+  description = "Private route table ID"
+  value       = module.vpc.private_route_table_id
 }
 
 output "security_group_ids" {

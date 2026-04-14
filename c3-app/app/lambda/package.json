@@ -1,0 +1,24 @@
+{
+  "name": "c3ops-demo-requests",
+  "version": "1.0.0",
+  "description": "Lambda function for C3Ops demo requests with S3 and SES integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.967.0",
+    "@aws-sdk/client-ses": "^3.967.0",
+    "@aws-sdk/lib-dynamodb": "^3.967.0",
+    "aws-sdk": "^2.1400.0",
+    "uuid": "^9.0.0"
+  },
+  "keywords": [
+    "lambda",
+    "s3",
+    "ses",
+    "api-gateway"
+  ],
+  "author": "C3Ops",
+  "license": "ISC"
+}

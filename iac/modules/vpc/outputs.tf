@@ -13,19 +13,9 @@ output "public_subnet_ids" {
   value       = aws_subnet.public[*].id
 }
 
-output "private_web_subnet_ids" {
-  description = "Private web tier subnet IDs"
-  value       = aws_subnet.private_web[*].id
-}
-
-output "private_app_subnet_ids" {
-  description = "Private app tier subnet IDs"
-  value       = aws_subnet.private_app[*].id
-}
-
-output "private_db_subnet_ids" {
-  description = "Private DB tier subnet IDs"
-  value       = aws_subnet.private_db[*].id
+output "private_subnet_ids" {
+  description = "Private subnet IDs"
+  value       = aws_subnet.private[*].id
 }
 
 output "internet_gateway_id" {
@@ -43,17 +33,7 @@ output "public_route_table_id" {
   value       = aws_route_table.public.id
 }
 
-output "private_web_route_table_ids" {
-  description = "Private web tier route table IDs"
-  value       = aws_route_table.private_web[*].id
-}
-
-output "private_app_route_table_ids" {
-  description = "Private app tier route table IDs"
-  value       = aws_route_table.private_app[*].id
-}
-
-output "private_db_route_table_ids" {
-  description = "Private DB tier route table IDs"
-  value       = aws_route_table.private_db[*].id
+output "private_route_table_id" {
+  description = "Private route table ID"
+  value       = aws_route_table.private.id
 }

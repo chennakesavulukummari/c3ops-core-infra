@@ -1,0 +1,16 @@
+{
+  "Comment": "Add SPF",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "c3ops.io.",
+        "Type": "TXT",
+        "TTL": 300,
+        "ResourceRecords": [
+          { "Value": "\"v=spf1 include:_spf.google.com ~all\"" }
+        ]
+      }
+    }
+  ]
+}

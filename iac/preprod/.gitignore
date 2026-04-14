@@ -1,0 +1,245 @@
+###############################################################################
+# TERRAFORM - .gitignore
+# Prevents sensitive Terraform files and state from Git commits
+###############################################################################
+
+###############################################################################
+# TERRAFORM STATE & LOCK FILES
+###############################################################################
+# Local state files (contain sensitive resource information)
+*.tfstate
+*.tfstate.*
+
+# State lock files
+.terraform.tfstate.lock.info
+.terraform.lock.hcl
+
+# Terraform directories
+.terraform/
+.terraform.d/
+
+###############################################################################
+# TERRAFORM CONFIGURATION FILES (SENSITIVE)
+###############################################################################
+# Variables files containing secrets
+terraform.tfvars
+terraform.tfvars.json
+terraform.auto.tfvars
+terraform.auto.tfvars.json
+*.tfvars
+*.tfvars.json
+
+# AWS-specific sensitive files
+*.pem
+*.key
+*.ppk
+
+###############################################################################
+# TERRAFORM OVERRIDES
+###############################################################################
+# Local override files (not meant for version control)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local development overrides
+local.tf
+dev.tf
+development.tf
+
+###############################################################################
+# TERRAFORM PLANS & OUTPUTS
+###############################################################################
+# Plan files
+*.tfplan
+*.plan
+plan.out
+tfplan
+
+# Terraform output
+*.out
+terraform.out
+
+# Saved plans (can contain sensitive data)
+/plans/
+*.json (when it's a tfplan)
+
+###############################################################################
+# CRASH LOGS
+###############################################################################
+# Terraform crash logs
+crash.log
+crash.*.log
+
+###############################################################################
+# CLI CONFIGURATION FILES
+###############################################################################
+# Terraform CLI configuration
+.terraformrc
+terraform.rc
+
+###############################################################################
+# ENVIRONMENT VARIABLES
+###############################################################################
+# Environment files containing secrets
+.env
+.env.local
+.env.*.local
+.env.terraform
+
+# AWS credentials (should be in ~/.aws/credentials)
+aws-credentials.txt
+aws-creds.md
+
+###############################################################################
+# BACKUP FILES
+###############################################################################
+# Terraform backups
+*.tfbackup
+*.bak
+*.backup
+*.backup.*
+
+# State backups
+*.tfstate.backup
+
+###############################################################################
+# IDE & EDITOR FILES
+###############################################################################
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+.vim/
+*.swp
+*.swo
+*~
+
+###############################################################################
+# OPERATING SYSTEM FILES
+###############################################################################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+###############################################################################
+# LOGS & TEMPORARY FILES
+###############################################################################
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+.tmp/
+*~
+
+###############################################################################
+# PRIVATE KEYS & CERTIFICATES
+###############################################################################
+*.pem
+*.key
+*.ppk
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# SSL/TLS
+*.cert
+*.crt
+*.p12
+*.pfx
+
+###############################################################################
+# SENSITIVE DOCUMENTATION
+###############################################################################
+# Files with credentials or sensitive info
+*-creds.md
+*-secret.md
+*-password.md
+credentials.md
+secrets.md
+*-credentials.json
+
+# Route53 Zone IDs
+*-zone-id.txt
+zone-ids.md
+
+###############################################################################
+# DEPLOYMENT ARTIFACTS
+###############################################################################
+# Lambda packages
+*.zip
+lambda-*.zip
+function-*.zip
+
+# Build outputs
+dist/
+build/
+
+###############################################################################
+# NODE.JS / NPM (for mixed projects)
+###############################################################################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+
+###############################################################################
+# GIT & VERSION CONTROL
+###############################################################################
+# Git merge/rebase files
+.git/
+.gitconfig
+.gitkeep
+
+###############################################################################
+# SECRETS & CREDENTIALS
+###############################################################################
+# Any file containing credentials
+**/secrets/**
+**/credentials/**
+**/keys/**
+
+# Common credential patterns
+*password*
+*secret*
+*credential*
+*token*
+*apikey*
+*api_key*
+
+###############################################################################
+# ALLOW SPECIFIC FILES (use ! to allow)
+###############################################################################
+# Allow example/template files
+!*.example
+!*.template
+!terraform.tfvars.example
+!terraform.auto.tfvars.example
+!.env.example
+!.gitignore

@@ -1,0 +1,63 @@
+{
+  "name": "C3Ops - FinOps Platform",
+  "short_name": "C3Ops",
+  "description": "Multi-cloud cost optimization platform with FinOps Driven DevOps excellence for AWS, Azure, and GCP. Reduce cloud spending by 10-30% with AI-powered automation.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#15803d",
+  "orientation": "portrait-primary",
+  "dir": "ltr",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/logos/logo-assets/favicon/c3ops-favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logos/logo-assets/favicon/c3ops-favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logos/logo-assets/favicon/c3ops-favicon-64.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logos/logo-assets/favicon/c3ops-favicon-64.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "finance"],
+  "screenshots": [
+    {
+      "src": "/logos/logo-assets/png/c3ops-logo-green-256.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Request Demo",
+      "short_name": "Demo",
+      "description": "Request a demo of C3Ops platform",
+      "url": "/?section=contact",
+      "icons": [{
+        "src": "/logos/logo-assets/favicon/c3ops-favicon-32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

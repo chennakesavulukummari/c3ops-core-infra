@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: C3Ops Email API - Lambda Backend
+
+Parameters:
+  GmailUser:
+    Type: String
+    Default: info@c3ops.io
+    Description: Gmail SMTP username
+  
+  GmailAppPassword:
+    Type: String
+    NoEcho: true
+    Description: Gmail App Password (16-character code)
+  
+  GmailToEmail:
+    Type: String
+    Default: info@c3ops.io
+    Description: Email address to receive demo requests
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+  Api:
+    Cors:
+      AllowMethods: "'POST, OPTIONS'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'"
+
+Resources:
+  EmailApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.handler
+      Runtime: nodejs18.x
+      CodeUri: lambda/
+      Environment:
+        Variables:
+          GMAIL_USER: !Ref GmailUser
+          GMAIL_APP_PASSWORD: !Ref GmailAppPassword
+          GMAIL_TO_EMAIL: !Ref GmailToEmail
+          NODE_ENV: production
+      Events:
+        SendEmail:
+          Type: Api
+          Properties:
+            Path: /api/send-demo-request
+            Method: post
+        OptionsRequest:
+          Type: Api
+          Properties:
+            Path: /api/send-demo-request
+            Method: options
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+    Export:
+      Name: C3OpsEmailApiEndpoint
+  
+  FunctionArn:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt EmailApiFunction.Arn

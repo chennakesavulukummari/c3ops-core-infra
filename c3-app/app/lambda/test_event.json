@@ -1,0 +1,9 @@
+{
+  "httpMethod": "POST",
+  "body": {
+    "name": "Test User",
+    "email": "test.user@example.com",
+    "company": "Test Co",
+    "message": "I would like a demo."
+  }
+}
