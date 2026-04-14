@@ -15,8 +15,8 @@ All the following have been **permanently redacted** from production code:
 | [REDACTED] | AWS Access Key | ✅ Redacted | 8 files |
 | [REDACTED] | AWS Secret Key | ✅ Redacted | 7 files |
 | [REDACTED] | AWS Account ID | ✅ Redacted | 9 files |
-| `Z09119102GZCBPXNDRJBQ` | Route53 Hosted Zone | ✅ Removed | 1 file |
-| `qxug bqrr ewgk woqz` | Gmail App Password | ✅ Redacted | 2 files |
+| [REDACTED] | Route53 Hosted Zone | ✅ Removed | 1 file |
+| [REDACTED] | Gmail App Password | ✅ Redacted | 2 files |
 
 ---
 
